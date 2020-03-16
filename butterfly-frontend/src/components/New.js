@@ -13,13 +13,13 @@ class New extends React.Component{
   }
   handleChange(event){
     this.setState({
-      [event.currentTarget.id]:event.currcurrentTarget.value
+      [event.currentTarget.id]:event.currentTarget.value
     })
   }
-  handleSubmit(event){
+  async handleSubmit(event){
     event.preventDefault()
     try{
-      let response = await fetch(this.props.baseURL + 'butterfly', {
+      let response = await fetch(this.props.baseURL + '/butterfly', {
         method:'POST',
         body: JSON.stringify({
           title:this.state.title,
