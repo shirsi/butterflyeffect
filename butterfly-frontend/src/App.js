@@ -1,5 +1,5 @@
 import React from 'react'
-// import New fron './component/New.js'
+import New from './components/New.js'
 
 /*
 ********************************************************
@@ -9,7 +9,7 @@ import React from 'react'
 let baseURL = process.env.REACT_APP_BASEURL
 
 if(process.env.NODE_ENV === 'development'){
-  baseURL = 'http:// localhost:3003'
+  baseURL = 'http://localhost:3003'
 }
 
 // else {
@@ -88,9 +88,9 @@ class App extends React.Component {
 
         handleAddPost (post){
           const copyPosts = [post, ...this.state.posts]
-
-          this.stState({
-            post: copyPosts,
+          console.log(copyPosts);
+          this.setState({
+            posts: copyPosts,
             title:  '',
             media: '',
             caption: '',
@@ -158,11 +158,12 @@ class App extends React.Component {
   return (
     <div className="App">
       <h1>Hi</h1>
+      <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {
             this.state.posts.map(post =>{
               return(
-                <h3>posts.name</h3>
+                <h3>{post.title}</h3>
               )}
             )}
 
