@@ -1,5 +1,5 @@
 import React from 'react'
-// import New fron './component/New.js'
+import New from './components/New.js'
 
 /*
 ********************************************************
