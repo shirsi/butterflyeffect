@@ -116,33 +116,33 @@ class App extends React.Component {
      ********************************************************
      */
 
-     // async deletePost(id){
-     //   console.log(`deleted post:${baseURL}/butterfly/${id}`)
-     //
-     //   try {
-     //     let response = await fetch(`${baseURL}/butterfly/${id}`, {
-     //       method: 'DELETE'
-     //     })
-     //
-     //     let data = await response.json()
-     //
-     //     const deletedPost = this.state.postsfindIndex(post =>
-     //     recipe_id === id)
-     //
-     //     const copyPosts = [...this.state.posts]
-     //
-     //     copyPosts.splice(deletedPost, 1)
-     //
-     //     this.setState({
-     //       posts: copyPosts
-     //     })
-     //
-     //
-     //
-     //   } catch(e){
-     //     console.error(e);
-     //   }
-     // }
+     async deletePost(id){
+       console.log(`deleted post:${baseURL}/butterfly/${id}`)
+
+       try {
+         let response = await fetch(`${baseURL}/butterfly/${id}`, {
+           method: 'DELETE'
+         })
+
+         let data = await response.json()
+
+         const deletedPost = this.state.posts.findIndex(post =>
+         post._id === id)
+
+         const copyPosts = [...this.state.posts]
+
+         copyPosts.splice(deletedPost, 1)
+
+         this.setState({
+           posts: copyPosts
+         })
+
+
+
+       } catch(e){
+         console.error(e);
+       }
+     }
 
 
 
@@ -163,7 +163,12 @@ class App extends React.Component {
         {
             this.state.posts.map(post =>{
               return(
-                <h3>{post.title}</h3>
+                <div>
+                  <h3>{post.title}</h3>
+                  <button onClick={() => {
+                    this.deletePost(post._id)
+                  }}>delete</button>
+                </div>
               )}
             )}
 
