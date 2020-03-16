@@ -1,5 +1,5 @@
 import React from 'react'
-
+// import New fron './component/New.js'
 
 /*
 ********************************************************
@@ -13,11 +13,11 @@ if(process.env.NODE_ENV === 'development'){
 }
 
 // else {
-//   
+//
 //  baseURL = ''
 // }
 
-
+console.log(baseURL);
 
 
 
@@ -32,7 +32,15 @@ if(process.env.NODE_ENV === 'development'){
 
 class App extends React.Component {
 
-
+  constructor(props){
+    super(props)
+    this.state = {
+      posts:[],
+    }
+    this.handleAddPost = this.handleAddPost.bind(this)
+    // this.deletePost = this.deletePost.bind(this)
+    this.getPosts = this.getPosts.bind(this)
+  }
 
 
 
@@ -42,7 +50,9 @@ class App extends React.Component {
     ********************************************************
     */
 
-
+    componentDidMount(){
+      this.getPosts()
+    }
 
 
 
@@ -51,7 +61,20 @@ class App extends React.Component {
                 GRABS POST FROM SERVER
      ********************************************************
      */
+        async getPosts(){
+          try {
+            let response = await fetch(`${baseURL}/butterfly`)
 
+            let data = await response.json()
+            console.log(data)
+
+            this.setState({
+              posts: data
+            })
+          } catch(e){
+            console.error(e);
+          }
+        }
 
 
 
@@ -63,13 +86,24 @@ class App extends React.Component {
        ********************************************************
        */
 
+        handleAddPost (post){
+          const copyPosts = [post, ...this.state.posts]
+
+          this.stState({
+            post: copyPosts,
+            title:  '',
+            media: '',
+            caption: '',
+
+          })
+        }
 
 
 
 
        /*
        ********************************************************
-                 GET POSTS FOR SHOW PAGE
+                 Comments
        ********************************************************
        */
 
@@ -82,7 +116,33 @@ class App extends React.Component {
      ********************************************************
      */
 
-
+     // async deletePost(id){
+     //   console.log(`deleted post:${baseURL}/butterfly/${id}`)
+     //
+     //   try {
+     //     let response = await fetch(`${baseURL}/butterfly/${id}`, {
+     //       method: 'DELETE'
+     //     })
+     //
+     //     let data = await response.json()
+     //
+     //     const deletedPost = this.state.postsfindIndex(post =>
+     //     recipe_id === id)
+     //
+     //     const copyPosts = [...this.state.posts]
+     //
+     //     copyPosts.splice(deletedPost, 1)
+     //
+     //     this.setState({
+     //       posts: copyPosts
+     //     })
+     //
+     //
+     //
+     //   } catch(e){
+     //     console.error(e);
+     //   }
+     // }
 
 
 
@@ -98,6 +158,14 @@ class App extends React.Component {
   return (
     <div className="App">
       <h1>Hi</h1>
+
+        {
+            this.state.posts.map(post =>{
+              return(
+                <h3>posts.name</h3>
+              )}
+            )}
+
     </div>
   )}
 }
