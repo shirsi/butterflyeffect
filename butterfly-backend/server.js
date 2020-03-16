@@ -5,6 +5,9 @@ const mongoose = require('mongoose')
 PORT = 3003
 //=======config=============//
 const app = express()
+
+
+
 mongoose.connect('mongodb://localhost:27017/butterfly', {useNewUrlParser:true})
 mongoose.connection.once('open', () => {
   console.log('connect to mongoose...');
@@ -30,6 +33,8 @@ app.use(express.json())
 // }
 // app.use(cors(corsOptions))
 //=======controllers=============//
+const butterflyController = require("./controllers/butterfly.js")
+app.use("/butterfly", butterflyController);
 
 //=======listener=============//
 app.get('/', (req, res) => {

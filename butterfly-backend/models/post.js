@@ -1,13 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+// curl -X DELETE -H "Content-Type: application/json" -d '{"title":"First Post"}' http://localhost:3003/bookmarks
 
 const postSchema = new mongoose.Schema({
   title: String,
-  media:{
+  media: {
     image: String,
-    video: String,
-    required: true
+    video: String
   },
-  caption:String,
+  caption: String,
   likes: {
     type: Number,
     default: 0
@@ -16,6 +16,6 @@ const postSchema = new mongoose.Schema({
     username: String,
     comment: String
   }
-})
+});
 
-module.exports = mongoose.model('Post', postSchema)
+module.exports = mongoose.model("Post", postSchema);
