@@ -1,7 +1,8 @@
 import React from 'react'
 import New from './components/New.js'
 import Post from './components/Post.js'
-
+import Signup from './components/Signup'
+import Signin from './components/Signin'
 /*
 ********************************************************
           Define
@@ -37,11 +38,14 @@ class App extends React.Component {
     super(props)
     this.state = {
       posts:[],
+      username:''
     }
     this.handleAddPost = this.handleAddPost.bind(this)
     this.deletePost = this.deletePost.bind(this)
     this.getPosts = this.getPosts.bind(this)
     this.handleUpdatePost = this.handleUpdatePost.bind(this)
+    this.handleSignin = this.handleSignin.bind(this)
+    // this.getCurrentUser = this.getCurrentUser.bind(this)
   }
 
 
@@ -54,6 +58,7 @@ class App extends React.Component {
 
     componentDidMount(){
       this.getPosts()
+      // this.getCurrentUser()
     }
 
 
@@ -78,6 +83,25 @@ class App extends React.Component {
           }
         }
 
+        /*
+         ********************************************************
+                    GRABS CurrentUser FROM SERVER
+         ********************************************************
+         */
+         // async getCurrentUser(){
+         //   try {
+         //     let response = await fetch(`${baseURL}/sessions`)
+         //
+         //     let data = await response.json()
+         //     console.log(data)
+         //
+         //     this.setState({
+         //       username: data.username
+         //     })
+         //   } catch(e){
+         //     console.error(e);
+         //   }
+         // }
 
 
 
@@ -99,7 +123,11 @@ class App extends React.Component {
 
           })
         }
-
+        handleSignin(user){
+          this.setState({
+            username: user
+          })
+        }
 
 
 
@@ -178,7 +206,12 @@ class App extends React.Component {
   render(){
   return (
     <div className="App">
-      <h1>Hi</h1>
+      <h1>Hi, {this.state.username}</h1>
+      <Signup baseURL={baseURL}/>
+      <Signin
+      handleSignin = {this.handleSignin}
+      baseURL={baseURL}
+      username={this.state.username}/>
       <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {

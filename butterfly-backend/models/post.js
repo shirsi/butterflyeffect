@@ -10,10 +10,7 @@ const postSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  comments: {
-    // username: String,
-    comment: String
-  }
+  comments: String
 });
 
 module.exports = mongoose.model("Post", postSchema);
