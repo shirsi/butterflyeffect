@@ -1,5 +1,6 @@
 import React from 'react'
 import New from './components/New.js'
+import Post from './components/Post.js'
 
 /*
 ********************************************************
@@ -38,8 +39,9 @@ class App extends React.Component {
       posts:[],
     }
     this.handleAddPost = this.handleAddPost.bind(this)
-    // this.deletePost = this.deletePost.bind(this)
+    this.deletePost = this.deletePost.bind(this)
     this.getPosts = this.getPosts.bind(this)
+    this.handleUpdatePost = this.handleUpdatePost.bind(this)
   }
 
 
@@ -107,8 +109,33 @@ class App extends React.Component {
        ********************************************************
        */
 
-
-
+       /*
+     ********************************************************
+              update POSTS
+     ********************************************************
+     */
+     async handleUpdatePost(event, post){
+       event.preventDefault()
+       console.log(post._id);
+       try{
+         let response = await fetch(`${baseURL}/butterfly/${post._id}`,{
+           method:'PUT',
+           body: JSON.stringify(post),
+           headers:{
+             'Content-Type': 'application/json'
+           }
+         })
+         let updatedPost = await response.json()
+         const foundPostIndex = this.state.posts.findIndex(foundPost => foundPost._id === post._id)
+         const copyPosts = [...this.state.posts]
+         copyPosts[foundPostIndex] = updatedPost
+         this.setState({
+           posts: copyPosts
+         })
+       }catch(e){
+         console.error(e);
+       }
+     }
 
        /*
      ********************************************************
@@ -146,12 +173,6 @@ class App extends React.Component {
 
 
 
-     /*
-     ********************************************************
-                UPDATE RECIPES
-     ********************************************************
-     */
-
 
 
   render(){
@@ -164,10 +185,11 @@ class App extends React.Component {
             this.state.posts.map(post =>{
               return(
                 <div>
-                  <h3>{post.title}</h3>
+
                   <button onClick={() => {
                     this.deletePost(post._id)
                   }}>delete</button>
+                  <Post post={post} handleUpdatePost={this.handleUpdatePost}/>
                 </div>
               )}
             )}
