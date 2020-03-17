@@ -5,7 +5,8 @@ class Signin extends Component {
     this.state = {
       username:'',
       password:'',
-      signin: true
+      signin: true,
+
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -16,6 +17,7 @@ class Signin extends Component {
       signin: !this.state.signin
     })
   }
+
   handleChange(event){
     this.setState({
       [event.currentTarget.id]: event.currentTarget.value
@@ -35,6 +37,7 @@ class Signin extends Component {
         }
       })
       let data = await response.json()
+
       this.props.handleSignin(data.username)
 
       console.log(data)
