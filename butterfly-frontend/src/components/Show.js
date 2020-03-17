@@ -4,7 +4,7 @@ class Show extends React.Component {
   render () {
     return (
       <>
-        <div className="details">
+        <div className="modal">
          <h3>{this.props.post.title.toUpperCase()}</h3>
          <hr/>
          <img href={this.props.post.image}></img>
