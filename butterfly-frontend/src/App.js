@@ -1,7 +1,7 @@
 import React from 'react'
 import New from './components/New.js'
 import Post from './components/Post.js'
-import Show from './components/Show
+import Show from './components/Show'
 
 /*
 ********************************************************
