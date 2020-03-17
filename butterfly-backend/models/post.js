@@ -11,7 +11,7 @@ const postSchema = new mongoose.Schema({
     default: 0
   },
   comments: {
-    username: String,
+    // username: String,
     comment: String
   }
 });
