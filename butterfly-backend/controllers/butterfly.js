@@ -1,6 +1,18 @@
 const express = require("express");
 const posts = express.Router();
-const Post = require("../models/post.js");
+const Post = require("../models/post.js")
+
+const isAuthenticated = (req, res, next) => {
+  if (req.session.currentUser) {
+    return next()
+  } else {
+    res.redirect('/sessions/new')
+  }
+}
+
+
+
+
 //==========presentational route=========//
 posts.get("/", (req, res) => {
   Post.find({}, (err, foundPosts) => {

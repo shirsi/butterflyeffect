@@ -3,6 +3,7 @@ import New from './components/New.js'
 import Post from './components/Post.js'
 import Signup from './components/Signup'
 import Signin from './components/Signin'
+import Show from './components/Show'
 /*
 ********************************************************
           Define
@@ -36,7 +37,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       posts:[],
-      username:''
+      username:'',
+      post: null
     }
     this.handleAddPost = this.handleAddPost.bind(this)
     this.deletePost = this.deletePost.bind(this)
@@ -81,7 +83,9 @@ class App extends React.Component {
           }
         }
 
-
+        getPost(post){
+          this.setState({post: post})
+        }
 
      /*
        ********************************************************
@@ -198,7 +202,7 @@ class App extends React.Component {
             this.state.posts.map(post =>{
               return(
                 <div>
-
+                  <h2 onClick={()=>this.getPost(post)}>{post.title}</h2>
                   <button onClick={() => {
                     this.deletePost(post._id)
                   }}>delete</button>
@@ -206,7 +210,7 @@ class App extends React.Component {
                 </div>
               )}
             )}
-
+            {this.state.post ? <Show post={this.state.post}/> : null}
     </div>
   )}
 }
