@@ -1,6 +1,7 @@
 import React from 'react'
 import New from './components/New.js'
 import Post from './components/Post.js'
+import Show from './components/Show'
 
 /*
 ********************************************************
@@ -37,6 +38,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       posts:[],
+      post: null
     }
     this.handleAddPost = this.handleAddPost.bind(this)
     this.deletePost = this.deletePost.bind(this)
@@ -78,7 +80,9 @@ class App extends React.Component {
           }
         }
 
-
+        getPost(post){
+          this.setState({post: post})
+        }
 
 
 
@@ -170,22 +174,17 @@ class App extends React.Component {
          console.error(e);
        }
      }
-
-
-
-
-
   render(){
   return (
     <div className="App">
-      <h1>Hi</h1>
+    <h1>Welcome to the Butterfly Effect!</h1>
       <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {
             this.state.posts.map(post =>{
               return(
                 <div>
-
+                  <h2 onClick={()=>this.getPost(post)}>{post.title}</h2>
                   <button onClick={() => {
                     this.deletePost(post._id)
                   }}>delete</button>
@@ -193,7 +192,7 @@ class App extends React.Component {
                 </div>
               )}
             )}
-
+            {this.state.post ? <Show post={this.state.post}/> : null}
     </div>
   )}
 }
