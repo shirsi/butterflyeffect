@@ -5,9 +5,17 @@ class Signup extends Component {
     this.state = {
       username:'',
       password:'',
+      signup: true
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.toggleSignup = this.toggleSignup.bind(this)
+  }
+
+  toggleSignup(){
+    this.setState({
+      signup: !this.state.signup
+    })
   }
   handleChange(event){
     this.setState({
@@ -31,7 +39,8 @@ class Signup extends Component {
       // console.log(data)
       this.setState({
         username:'',
-        password:''
+        password:'',
+        signup:true
       })
     }catch(e){
       console.error(e);
@@ -40,13 +49,20 @@ class Signup extends Component {
   render(){
     return(
       <div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="username">Userame</label>
-          <input type="text" id="username" name="username" onChange={this.handleChange} value={this.state.username} placeholder="username"/>
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" onChange={this.handleChange} value={this.state.password} placeholder="password"/>
-          <input type='submit' value='sign up'/>
-        </form>
+      {
+          this.state.signup
+          ?
+          <button onClick={this.toggleSignup}>Sign up</button>
+          :
+          <form onSubmit={this.handleSubmit}>
+            <label htmlFor="username">Userame</label>
+            <input type="text" id="username" name="username" onChange={this.handleChange} value={this.state.username} placeholder="username"/>
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" name="password" onChange={this.handleChange} value={this.state.password} placeholder="password"/>
+            <input type='submit' value='sign up'/>
+          </form>
+        }
+
       </div>
     )
   }

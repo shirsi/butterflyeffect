@@ -30,8 +30,6 @@ console.log(baseURL);
 ********************************************************
 */
 
-
-
 class App extends React.Component {
 
   constructor(props){
@@ -83,27 +81,6 @@ class App extends React.Component {
           }
         }
 
-        /*
-         ********************************************************
-                    GRABS CurrentUser FROM SERVER
-         ********************************************************
-         */
-         // async getCurrentUser(){
-         //   try {
-         //     let response = await fetch(`${baseURL}/sessions`)
-         //
-         //     let data = await response.json()
-         //     console.log(data)
-         //
-         //     this.setState({
-         //       username: data.username
-         //     })
-         //   } catch(e){
-         //     console.error(e);
-         //   }
-         // }
-
-
 
 
      /*
@@ -123,6 +100,7 @@ class App extends React.Component {
 
           })
         }
+
         handleSignin(user){
           this.setState({
             username: user
@@ -199,19 +177,21 @@ class App extends React.Component {
        }
      }
 
-
-
-
-
   render(){
   return (
     <div className="App">
+    <Signup baseURL={baseURL}/>
+    {
+      this.state.username
+      ?
       <h1>Hi, {this.state.username}</h1>
-      <Signup baseURL={baseURL}/>
+      :
       <Signin
       handleSignin = {this.handleSignin}
       baseURL={baseURL}
       username={this.state.username}/>
+    }
+
       <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {

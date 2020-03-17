@@ -5,9 +5,16 @@ class Signin extends Component {
     this.state = {
       username:'',
       password:'',
+      signin: true
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.toggleSignin = this.toggleSignin.bind(this)
+  }
+  toggleSignin(){
+    this.setState({
+      signin: !this.state.signin
+    })
   }
   handleChange(event){
     this.setState({
@@ -42,9 +49,12 @@ class Signin extends Component {
   render(){
     return(
       <div>
+      {
+        this.state.signin
+        ?  <button onClick={this.toggleSignin}>Sign in</button>
+        :
         <form onSubmit={
           this.handleSubmit
-          // this.props.getCurrentUser
         }>
           <label htmlFor="username">Userame</label>
           <input type="text" id="username" name="username" onChange={this.handleChange} value={this.state.username} placeholder="username"/>
@@ -52,6 +62,8 @@ class Signin extends Component {
           <input type="password" id="password" name="password" onChange={this.handleChange} value={this.state.password} placeholder="password"/>
           <input type='submit' value='sign in'/>
         </form>
+      }
+
       </div>
     )
   }
