@@ -2,7 +2,10 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-PORT = 3003
+const session = require('express-session')
+require('dotenv').config()
+
+PORT = process.env.PORT || 3000;
 //=======config=============//
 const app = express()
 
@@ -21,6 +24,11 @@ mongoose.connection.on('disconnected', () => {
 })
 //=======middleware=============//
 app.use(express.json())
+app.use(session({
+  secret:process.env.SECRET,
+  resave: false,
+  saveUninitialized: false
+}))
 const whitelist = ['http://localhost:3000', 'https://fathomless-sierra-68956.herokuapp.com']
 const corsOptions = {
   origin: function (origin, callback) {
@@ -34,16 +42,11 @@ const corsOptions = {
 app.use(cors(corsOptions))
 //=======controllers=============//
 const butterflyController = require("./controllers/butterfly.js")
-const usersController = require('./controllers/users_controller.js')
-const sessionsController = require('./controllers/sessions_controller.js')
-
-
-
-
-
 app.use("/butterfly", butterflyController);
-app.use('/sessions', sessionsController)
+const usersController = require('./controllers/users_controller.js')
 app.use('/users', usersController)
+const sessionsController = require('./controllers/sessions_controller.js')
+app.use('/sessions', sessionsController)
 //=======listener=============//
 app.get('/', (req, res) => {
   res.send('hi')

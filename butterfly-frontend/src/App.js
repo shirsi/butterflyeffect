@@ -1,8 +1,9 @@
 import React from 'react'
 import New from './components/New.js'
 import Post from './components/Post.js'
+import Signup from './components/Signup'
+import Signin from './components/Signin'
 import Show from './components/Show'
-
 /*
 ********************************************************
           Define
@@ -30,20 +31,21 @@ console.log(baseURL);
 ********************************************************
 */
 
-
-
 class App extends React.Component {
 
   constructor(props){
     super(props)
     this.state = {
       posts:[],
+      username:'',
       post: null
     }
     this.handleAddPost = this.handleAddPost.bind(this)
     this.deletePost = this.deletePost.bind(this)
     this.getPosts = this.getPosts.bind(this)
     this.handleUpdatePost = this.handleUpdatePost.bind(this)
+    this.handleSignin = this.handleSignin.bind(this)
+    // this.getCurrentUser = this.getCurrentUser.bind(this)
   }
 
 
@@ -56,6 +58,7 @@ class App extends React.Component {
 
     componentDidMount(){
       this.getPosts()
+      // this.getCurrentUser()
     }
 
 
@@ -84,8 +87,6 @@ class App extends React.Component {
           this.setState({post: post})
         }
 
-
-
      /*
        ********************************************************
                    ADDS NEW POST
@@ -104,6 +105,11 @@ class App extends React.Component {
           })
         }
 
+        handleSignin(user){
+          this.setState({
+            username: user
+          })
+        }
 
 
 
@@ -174,10 +180,22 @@ class App extends React.Component {
          console.error(e);
        }
      }
+
   render(){
   return (
     <div className="App">
-    <h1>Welcome to the Butterfly Effect!</h1>
+    <Signup baseURL={baseURL}/>
+    {
+      this.state.username
+      ?
+      <h1>Hi, {this.state.username}</h1>
+      :
+      <Signin
+      handleSignin = {this.handleSignin}
+      baseURL={baseURL}
+      username={this.state.username}/>
+    }
+
       <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {
