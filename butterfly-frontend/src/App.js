@@ -142,8 +142,8 @@ class App extends React.Component {
          this.setState({
            posts: copyPosts
          })
-       }catch(e){
-         console.error(e);
+       }catch(error){
+         console.error(error);
        }
      }
 
