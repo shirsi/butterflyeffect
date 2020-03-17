@@ -26,7 +26,6 @@ class Post extends Component {
 
         }
         <button onClick={this.toggleForm}>Update Me!</button>
-
       </div>
     )
   }
