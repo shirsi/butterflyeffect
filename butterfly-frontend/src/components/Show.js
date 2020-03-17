@@ -3,7 +3,7 @@ import React from 'react'
 class Show extends React.Component {
   render () {
     return (
-      <>
+      <div>
         <div className="modal">
          <h3>{this.props.post.title.toUpperCase()}</h3>
          <hr/>
@@ -13,7 +13,7 @@ class Show extends React.Component {
          <h6><span>Likes:</span> {this.props.post.likes}</h6>
          {/* <p><span>comments:</span> { this.props.holiday.description } </p> */}
        </div>
-      </>
+     </div>
     )
   }
  }

@@ -34,8 +34,16 @@ const corsOptions = {
 app.use(cors(corsOptions))
 //=======controllers=============//
 const butterflyController = require("./controllers/butterfly.js")
-app.use("/butterfly", butterflyController);
+const usersController = require('./controllers/users_controller.js')
+const sessionsController = require('./controllers/sessions_controller.js')
 
+
+
+
+
+app.use("/butterfly", butterflyController);
+app.use('/sessions', sessionsController)
+app.use('/users', usersController)
 //=======listener=============//
 app.get('/', (req, res) => {
   res.send('hi')

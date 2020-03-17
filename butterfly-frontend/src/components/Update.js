@@ -29,16 +29,16 @@ class Update extends Component{
         }>
 
           <label htmlFor="title">title</label>
-          <input type="text" id="title" name="title" onChange={this.handleChange} value={this.state.title} placeholder="name your post"/>
+          <input type="text" id="title" name="title"  onChange={this.handleChange}  value={this.props.post.title}/>
 
           <label htmlFor="image">image</label>
-          <input type="text" id="image" name="image" onChange={this.handleChange} value={this.state.image} placeholder="upload your image"/>
+          <input type="text" id="image" name="image" onChange={this.handleChange} value={this.props.post.image} />
 
           <label htmlFor="video">video</label>
-          <input type="text" id="video" name="video" onChange={this.handleChange} value={this.state.video} placeholder="upload your video"/>
+          <input type="text" id="video" name="video" onChange={this.handleChange} value={this.props.post.video} placeholder="upload your video"/>
 
           <label htmlFor="caption">caption</label>
-          <input type="text" id="caption" name="caption" onChange={this.handleChange} value={this.state.caption} placeholder="put your caption"/>
+          <input type="text" id="caption" name="caption" onChange={this.handleChange} value={this.props.post.caption} placeholder="put your caption"/>
 
           <input type="submit" value="submit"/>
         </form>
