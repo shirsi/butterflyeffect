@@ -1,5 +1,7 @@
 import React from 'react'
 import New from './components/New.js'
+import Post from './components/Post.js'
+import Show from './components/Show'
 
 /*
 ********************************************************
@@ -36,10 +38,12 @@ class App extends React.Component {
     super(props)
     this.state = {
       posts:[],
+      post: null
     }
     this.handleAddPost = this.handleAddPost.bind(this)
-    // this.deletePost = this.deletePost.bind(this)
+    this.deletePost = this.deletePost.bind(this)
     this.getPosts = this.getPosts.bind(this)
+    this.handleUpdatePost = this.handleUpdatePost.bind(this)
   }
 
 
@@ -76,7 +80,9 @@ class App extends React.Component {
           }
         }
 
-
+        getPost(post){
+          this.setState({post: post})
+        }
 
 
 
@@ -107,8 +113,33 @@ class App extends React.Component {
        ********************************************************
        */
 
-
-
+       /*
+     ********************************************************
+              update POSTS
+     ********************************************************
+     */
+     async handleUpdatePost(event, post){
+       event.preventDefault()
+       console.log(post._id);
+       try{
+         let response = await fetch(`${baseURL}/butterfly/${post._id}`,{
+           method:'PUT',
+           body: JSON.stringify(post),
+           headers:{
+             'Content-Type': 'application/json'
+           }
+         })
+         let updatedPost = await response.json()
+         const foundPostIndex = this.state.posts.findIndex(foundPost => foundPost._id === post._id)
+         const copyPosts = [...this.state.posts]
+         copyPosts[foundPostIndex] = updatedPost
+         this.setState({
+           posts: copyPosts
+         })
+       }catch(e){
+         console.error(e);
+       }
+     }
 
        /*
      ********************************************************
@@ -143,35 +174,25 @@ class App extends React.Component {
          console.error(e);
        }
      }
-
-
-
-     /*
-     ********************************************************
-                UPDATE RECIPES
-     ********************************************************
-     */
-
-
-
   render(){
   return (
     <div className="App">
-      <h1>Hi</h1>
+    <h1>Welcome to the Butterfly Effect!</h1>
       <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {
             this.state.posts.map(post =>{
               return(
                 <div>
-                  <h3>{post.title}</h3>
+                  <h2 onClick={()=>this.getPost(post)}>{post.title}</h2>
                   <button onClick={() => {
                     this.deletePost(post._id)
                   }}>delete</button>
+                  <Post post={post} handleUpdatePost={this.handleUpdatePost}/>
                 </div>
               )}
             )}
-
+            {this.state.post ? <Show post={this.state.post}/> : null}
     </div>
   )}
 }
