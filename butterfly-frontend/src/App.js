@@ -45,6 +45,7 @@ class App extends React.Component {
     this.getPosts = this.getPosts.bind(this)
     this.handleUpdatePost = this.handleUpdatePost.bind(this)
     this.handleSignin = this.handleSignin.bind(this)
+    this.signOutUser = this.signOutUser.bind(this)
     // this.getCurrentUser = this.getCurrentUser.bind(this)
   }
 
@@ -160,26 +161,38 @@ class App extends React.Component {
          let response = await fetch(`${baseURL}/butterfly/${id}`, {
            method: 'DELETE'
          })
-
          let data = await response.json()
-
          const deletedPost = this.state.posts.findIndex(post =>
          post._id === id)
-
          const copyPosts = [...this.state.posts]
-
          copyPosts.splice(deletedPost, 1)
-
          this.setState({
            posts: copyPosts
          })
-
-
-
        } catch(e){
          console.error(e);
        }
      }
+     /*
+   ********************************************************
+             Delete USERS
+   ********************************************************
+   */
+   async signOutUser(){
+     console.log(`deleted user:${baseURL}/sessions`)
+
+     try {
+       let response = await fetch(`${baseURL}/sessions`, {
+         method: 'DELETE'
+       })
+       let data = await response.json()
+       this.setState({
+         username: ''
+       })
+     } catch(e){
+       console.error(e);
+     }
+   }
 
   render(){
   return (
@@ -195,7 +208,9 @@ class App extends React.Component {
       baseURL={baseURL}
       username={this.state.username}/>
     }
-
+      <button onClick={
+        this.signOutUser
+      }>Sign Out</button>
       <New baseURL={baseURL} handleAddPost={this.handleAddPost}/>
 
         {

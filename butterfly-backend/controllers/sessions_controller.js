@@ -30,11 +30,11 @@ sessions.post('/', (req, res) => {
     }
   })
 })
-// sessions.delete('/',(req, res) => {
-//   req.session.destroy(() => {
-//     res.redirect('/')
-//   })
-//
-// })
+sessions.delete('/',(req, res) => {
+  req.session.destroy(() => {
+    res.status(200).json('delete the session')
+  })
+
+})
 //*********functional route end***********//
 module.exports = sessions
