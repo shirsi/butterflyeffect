@@ -13,7 +13,7 @@ class Show extends React.Component {
          }
 
          {
-           this.props.post.video? <iframe width="560" height="315" src={this.props.post.video} frameBorder="0"></iframe>: ''
+           this.props.post.video? <iframe width="560" height="315" src={`${this.props.post.video}?autoplay=1`} frameBorder="0"></iframe>: ''
          }
          <h4>{this.props.post.caption}</h4>
          <h6><span>Likes:</span> {this.props.post.likes}</h6>

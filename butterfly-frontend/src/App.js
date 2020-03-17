@@ -183,9 +183,9 @@ console.log(copyPosts);
 
          console.log(updatedPost);
          this.setState({
-           post: copyPosts
+           posts: copyPosts
          })
-
+      
        }catch(e){
          console.error(e)
        }
@@ -245,7 +245,7 @@ console.log(copyPosts);
             this.state.posts.map(post =>{
               return(
                 <div>
-                  <h2 onClick={()=>this.getPost(post)}>{post.title}</h2>
+                  <h2 onClick={()=>this.getPost(post)}>{post.title.toUpperCase()}</h2>
                   <button onClick={() => {
                     this.deletePost(post._id)
                   }}>delete</button>
