@@ -45,6 +45,7 @@ class App extends React.Component {
     this.getPosts = this.getPosts.bind(this)
     this.handleUpdatePost = this.handleUpdatePost.bind(this)
     this.handleSignin = this.handleSignin.bind(this)
+    this.toggleLikes = this.toggleLikes.bind(this)
     // this.getCurrentUser = this.getCurrentUser.bind(this)
   }
 
@@ -147,6 +148,48 @@ class App extends React.Component {
        }
      }
 
+
+
+     /*
+    ********************************************************
+            Update likes POSTS
+    ********************************************************
+    */
+
+    async toggleLikes (post){
+         console.log(post)
+         try {
+           let response = await fetch( `${baseURL}/butterfly/${post._id}`, {
+             method: 'PUT',
+             body: JSON.stringify({likes: post.likes + 1}),
+             headers:{
+               'Content-type': 'application/json'
+             }
+           })
+
+
+           let updatedPost =  await response.json()
+
+           console.log(updatedPost)
+
+           const foundPost = this.state.posts.findIndex(postFound=>
+             postFound._id === post._id
+           )
+           console.log(foundPost);
+
+         const copyPosts = [...this.state.posts]
+console.log(copyPosts);
+         copyPosts[foundPost].likes = updatedPost.likes
+
+         console.log(updatedPost);
+         this.setState({
+           posts: copyPosts
+         })
+      
+       }catch(e){
+         console.error(e)
+       }
+       }
        /*
      ********************************************************
                Delete POSTS
@@ -202,11 +245,20 @@ class App extends React.Component {
             this.state.posts.map(post =>{
               return(
                 <div>
-                  <h2 onClick={()=>this.getPost(post)}>{post.title}</h2>
+                  <h2 onClick={()=>this.getPost(post)}>{post.title.toUpperCase()}</h2>
                   <button onClick={() => {
                     this.deletePost(post._id)
                   }}>delete</button>
-                  <Post post={post} handleUpdatePost={this.handleUpdatePost}/>
+
+
+<Post post={post} handleUpdatePost={this.handleUpdatePost}/>
+                <div onClick={() => {
+                    this.toggleLikes(post)
+                  }}>{
+                    post.likes? '❤️': '🤍'
+                  }</div>
+
+
                 </div>
               )}
             )}
