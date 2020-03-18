@@ -38,18 +38,19 @@ class App extends React.Component {
     this.state = {
       posts:[],
       username:'',
-      post: null,
-
       comments:''
+      post: null,
+      signup: false
     }
     this.handleAddPost = this.handleAddPost.bind(this)
     this.deletePost = this.deletePost.bind(this)
     this.getPosts = this.getPosts.bind(this)
     this.handleUpdatePost = this.handleUpdatePost.bind(this)
+    this.getSession = this.getSession.bind(this)
     this.handleSignin = this.handleSignin.bind(this)
     this.toggleLikes = this.toggleLikes.bind(this)
-    this.signOutUser = this.signOutUser.bind(this)
     this.handleUpdateComments = this.handleUpdateComments.bind(this)
+    this.logoutUser = this.logoutUser.bind(this)
     // this.getCurrentUser = this.getCurrentUser.bind(this)
   }
 
@@ -63,16 +64,43 @@ class App extends React.Component {
 
     componentDidMount(){
       this.getPosts()
+      this.getSession()
       // this.getCurrentUser()
     }
-
-
 
     /*
      ********************************************************
                 GRABS POST FROM SERVER
      ********************************************************
      */
+
+
+
+    async getSession(){
+      try {
+        let response = await fetch(`${baseURL}/sessions`)
+
+        let data = await response.json()
+        console.log(data)
+
+        this.setState({
+          session: data
+        })
+      } catch(e){
+        console.error(e);
+      }
+    }
+
+
+
+
+
+   /*
+   ********************************************************
+              GRABS POST FROM SERVER
+   ********************************************************
+   */
+
         async getPosts(){
           try {
             let response = await fetch(`${baseURL}/butterfly`)
@@ -256,21 +284,22 @@ class App extends React.Component {
              Delete USERS
    ********************************************************
    */
-   async signOutUser(){
-     console.log(`deleted user:${baseURL}/sessions`)
-
-     try {
-       let response = await fetch(`${baseURL}/sessions`, {
-         method: 'DELETE'
-       })
-       let data = await response.json()
-       this.setState({
-         username: ''
-       })
-     } catch(e){
-       console.error(e);
+     async logoutUser(){
+      try{
+         let response = await fetch(`${baseURL}/sessions`,{
+           method:'DELETE'
+         })
+         let data = await response
+         console.log(data)
+         this.setState({
+           username:'',
+           password:'',
+           signup:false
+         })
+       }catch(e){
+         console.error(e);
+       }
      }
-   }
 
   render(){
   return (
@@ -280,7 +309,12 @@ class App extends React.Component {
     {
       this.state.username
       ?
+      <div>
       <h1>Hi, {this.state.username}</h1>
+      <button onClick = {() => {
+        this.logoutUser()
+      }}>Logout</button>
+      </div>
       :
       <Signin
       handleSignin = {this.handleSignin}
