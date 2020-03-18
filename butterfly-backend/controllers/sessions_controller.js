@@ -2,11 +2,13 @@ const bcrypt = require('bcrypt')
 const express = require('express')
 const User = require('../models/user.js')
 const sessions = express.Router()
-//*********presentational route***********//
-// sessions.get('/new', (req, res) => {
-//   res.render('sessions/new.ejs')
-// })
-//*********presentational route end***********//
+
+sessions.get('/', (req, res) => {
+  res.json(req.session)
+
+})
+
+
 //*********functional route***********//
 sessions.post('/', (req, res) => {
   User.findOne({username: req.body.username},(err, foundUser) => {
@@ -30,11 +32,16 @@ sessions.post('/', (req, res) => {
     }
   })
 })
-// sessions.delete('/',(req, res) => {
-//   req.session.destroy(() => {
-//     res.redirect('/')
-//   })
-//
-// })
+
+
+
+sessions.delete('/',(req, res) => {
+  req.session.destroy(() => {
+res.send('session deleted')
+
+
+  })
+
+})
 //*********functional route end***********//
 module.exports = sessions
