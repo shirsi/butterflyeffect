@@ -38,7 +38,9 @@ class App extends React.Component {
     this.state = {
       posts:[],
       username:'',
-      post: null
+      post: null,
+
+      comments:''
     }
     this.handleAddPost = this.handleAddPost.bind(this)
     this.deletePost = this.deletePost.bind(this)
@@ -47,7 +49,7 @@ class App extends React.Component {
     this.handleSignin = this.handleSignin.bind(this)
     this.toggleLikes = this.toggleLikes.bind(this)
     this.signOutUser = this.signOutUser.bind(this)
-
+    this.handleUpdateComments = this.handleUpdateComments.bind(this)
     // this.getCurrentUser = this.getCurrentUser.bind(this)
   }
 
@@ -88,6 +90,7 @@ class App extends React.Component {
 
         getPost(post){
           this.setState({post: post})
+          console.log(this.state.post);
         }
 
      /*
@@ -104,7 +107,7 @@ class App extends React.Component {
             title:  '',
             media: '',
             caption: '',
-
+            comments:''
           })
         }
 
@@ -121,7 +124,36 @@ class App extends React.Component {
                  Comments
        ********************************************************
        */
+       async handleUpdateComments(event, post, comment){
+         event.preventDefault()
+         // console.log(post._id);
+         let copyComments = [...this.state.post.comments]
+         // console.log(copyComments);
+         copyComments.push(comment)
+         try{
+           let response = await fetch(`${baseURL}/butterfly/${post._id}`,{
+             method:'PUT',
+             body: JSON.stringify({
+               comments: copyComments
+             }),
+             headers:{
+               'Content-Type': 'application/json'
+             }
+           })
+           let updatedPost = await response.json()
 
+           const foundPostIndex = this.state.posts.findIndex(foundPost => foundPost._id === post._id)
+           const copyPosts = [...this.state.posts]
+           copyPosts[foundPostIndex].comments = updatedPost.comments
+           console.log(copyPosts[foundPostIndex]);
+           this.setState({
+             posts: copyPosts,
+             // post:updatedPost
+           })
+         }catch(error){
+           console.error(error);
+         }
+       }
        /*
      ********************************************************
               update POSTS
@@ -143,7 +175,8 @@ class App extends React.Component {
          const copyPosts = [...this.state.posts]
          copyPosts[foundPostIndex] = updatedPost
          this.setState({
-           posts: copyPosts
+           posts: copyPosts,
+
          })
        }catch(error){
          console.error(error);
@@ -160,7 +193,7 @@ class App extends React.Component {
     */
 
     async toggleLikes (post){
-         console.log(post)
+         // console.log(post)
          try {
            let response = await fetch( `${baseURL}/butterfly/${post._id}`, {
              method: 'PUT',
@@ -173,18 +206,18 @@ class App extends React.Component {
 
            let updatedPost =  await response.json()
 
-           console.log(updatedPost)
+           // console.log(updatedPost)
 
            const foundPost = this.state.posts.findIndex(postFound=>
              postFound._id === post._id
            )
-           console.log(foundPost);
+           // console.log(foundPost);
 
          const copyPosts = [...this.state.posts]
-         console.log(copyPosts);
+         // console.log(copyPosts);
          copyPosts[foundPost].likes = updatedPost.likes
 
-         console.log(updatedPost);
+         // console.log(updatedPost);
          this.setState({
            posts: copyPosts
          })
@@ -242,6 +275,7 @@ class App extends React.Component {
   render(){
   return (
     <div className="App">
+
     <Signup baseURL={baseURL}/>
     {
       this.state.username
@@ -268,7 +302,7 @@ class App extends React.Component {
                   }}>delete</button>
 
 
-<Post post={post} handleUpdatePost={this.handleUpdatePost}/>
+                  <Post post={post} handleUpdatePost={this.handleUpdatePost}/>
                 <div onClick={() => {
                     this.toggleLikes(post)
                   }}>{
@@ -277,7 +311,10 @@ class App extends React.Component {
                 </div>
               )}
             )}
-            {this.state.post ? <Show post={this.state.post}/> : null}
+            {this.state.post
+              ? <Show
+              post={this.state.post} handleUpdateComments={this.handleUpdateComments}/>
+              : null}
     </div>
   )}
 }

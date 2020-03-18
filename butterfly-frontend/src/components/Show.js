@@ -1,42 +1,20 @@
 import React from 'react'
-import Comments from './Comments'
+import Comment from './Comment'
 class Show extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      post: this.props.post
-    }
-  }
-    /*
-  ********************************************************
-           update Comments
-  ********************************************************
-  */
-  // async handleUpdateComments(event, post){
-  //   event.preventDefault()
-  //   console.log(post._id);
-  //   try{
-  //     let response = await fetch(`${baseURL}/butterfly/${post._id}`,{
-  //       method:'PUT',
-  //       body: JSON.stringify(post),
-  //       headers:{
-  //         'Content-Type': 'application/json'
-  //       }
-  //     })
-  //     let updatedPost = await response.json()
-  //     const foundPostIndex = this.state.posts.findIndex(foundPost => foundPost._id === post._id)
-  //     const copyPosts = [...this.state.posts]
-  //     copyPosts[foundPostIndex] = updatedPost
-  //     this.setState({
-  //       posts: copyPosts
-  //     })
-  //   }catch(error){
-  //     console.error(error);
+  // constructor(props){
+  //   super(props)
+  //   this.state = {
+  //     post: this.props.post,
+  //
   //   }
+  //
+  //   // this.toggleShow = this.toggleShow.bind(this)
   // }
+
   render () {
 
     return (
+
       <div>
         <div className="modal">
          <h3>{this.props.post.title.toUpperCase()}</h3>
@@ -51,8 +29,15 @@ class Show extends React.Component {
          <h4>{this.props.post.caption}</h4>
          <h6><span>Likes:</span> {this.props.post.likes}</h6>
          <h6>Comments</h6>
-         <Comments />
-         {/* <p><span>comments:</span> { this.props.holiday.description } </p> */}
+         {
+           this.props.post.comments.map((comment) => {
+             return(
+                <h6>{comment}</h6>
+             )
+           })
+         }
+         <Comment post={this.props.post} handleUpdateComments={this.props.handleUpdateComments}/>
+
        </div>
      </div>
     )
